@@ -8,7 +8,6 @@ const ProjectCard = ({ title, description, onClick }) => {
 };
 
 const Projects = () => {
-  // Handle the redirection for each project
   const handleCineStackClick = () => {
     window.location.href = 'https://cine-track.fly.dev/';
   };
@@ -27,8 +26,7 @@ const Projects = () => {
 
   const handlePortfolioWebsiteClick = () => {
     console.log('Redirecting to Portfolio Website...');
-    // Replace with actual project link
-    window.location.href = 'https://your-portfolio-website-link.com';
+    window.location.href = 'https://couzens.fly.dev/';
   };
 
   return (
