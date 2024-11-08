@@ -35,15 +35,17 @@ const ThreeScene = () => {
     controls.maxPolarAngle = Math.PI / 2 + 0.1;
 
     const loader = new GLTFLoader();
+    let mesh;
+
     loader.load(
       'richard-couzens.glb',
       (glb) => {
-        const mesh = glb.scene;
-        
+        mesh = glb.scene;
+
         // Center the model using bounding box
         const box = new THREE.Box3().setFromObject(mesh);
         const center = box.getCenter(new THREE.Vector3());
-        mesh.position.sub(center);  // Offset the model's position by its center
+        mesh.position.sub(center);
         mesh.scale.set(1.5, 1.5, 1.5);
 
         scene.add(mesh);
@@ -56,24 +58,45 @@ const ThreeScene = () => {
       }
     );
 
-    // Increase the ambient light intensity
-    const ambientLight = new THREE.AmbientLight(0xFFFFFF, 2);
+    const ambientLight = new THREE.AmbientLight(0xffffff, 2);
     scene.add(ambientLight);
 
-    // Increase the point light intensity
     const pointLight = new THREE.PointLight(0x404040, 1);
     pointLight.position.set(-1, 1, 3);
     scene.add(pointLight);
 
+    // Variables to control model rotation based on mouse
+    const targetRotation = { x: 0, y: 0 };
+
+    // Mouse move event listener
+    const onMouseMove = (event) => {
+      if (!mesh) return;
+
+      const mouseX = (event.clientX / window.innerWidth) * 2 - 1;
+      const mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
+
+      // Limit rotation to a small angle range for subtle effect
+      targetRotation.y = THREE.MathUtils.lerp(targetRotation.y, mouseX * 0.4, 0.15); // Y-axis rotation
+      targetRotation.x = THREE.MathUtils.lerp(targetRotation.x, mouseY * -0.4, 0.15); // X-axis rotation
+    };
+
+    window.addEventListener('mousemove', onMouseMove);
+
     const animate = () => {
       requestAnimationFrame(animate);
+
+      if (mesh) {
+        // Smoothly apply the target rotation to the model
+        mesh.rotation.y = THREE.MathUtils.lerp(mesh.rotation.y, targetRotation.y, 0.05);
+        mesh.rotation.x = THREE.MathUtils.lerp(mesh.rotation.x, targetRotation.x, 0.05);
+      }
+
       controls.update();
       renderer.render(scene, camera);
     };
     animate();
 
     const onWindowResize = () => {
-      // Update camera aspect ratio and renderer size on window resize
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
       renderer.setSize(window.innerWidth, window.innerHeight);
@@ -81,15 +104,14 @@ const ThreeScene = () => {
     window.addEventListener('resize', onWindowResize);
 
     return () => {
+      window.removeEventListener('mousemove', onMouseMove);
+      window.removeEventListener('resize', onWindowResize);
+      controls.dispose();
       if (mountRef.current) {
-        window.removeEventListener('resize', onWindowResize);
-        controls.dispose();
         mountRef.current.removeChild(renderer.domElement);
         renderer.dispose();
         scene.traverse((object) => {
-          if (object.geometry) {
-            object.geometry.dispose();
-          }
+          if (object.geometry) object.geometry.dispose();
           if (object.material) {
             if (Array.isArray(object.material)) {
               object.material.forEach((material) => material.dispose());
@@ -110,7 +132,7 @@ const ThreeScene = () => {
         height: '100%',
         position: 'relative',
         display: 'flex',
-        overflow: 'hidden', // Prevent horizontal scroll
+        overflow: 'hidden',
       }}
     >
       {loading && (
