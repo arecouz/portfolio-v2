@@ -112,21 +112,21 @@ const FullStackOpen = () => {
         },
         {
           name: 'Containerized App',
-          link: 'https://github.com/arecouz/full-stack-open-blogs-containerized/tree/main/blogListApp'
+          link: 'https://github.com/arecouz/full-stack-open-blogs-containerized/tree/main/blogListApp',
         },
         {
           name: 'Repository Mobile App',
-          link: 'https://github.com/arecouz/FullStackOpen/tree/main/part10'
-        }
+          link: 'https://github.com/arecouz/FullStackOpen/tree/main/part10',
+        },
       ],
     },
   ];
 
   return (
     <DisplayGrid
-      title={'Open Source Society University'}
+      title={'Full Stack Open'}
       description={
-        'A complete education in computer science using online materials.'
+        'Building modern JavaScript-based, single page applications with ReactJS that use REST APIs built with Node.js.'
       }
       list={fso}
     />
