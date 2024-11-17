@@ -19,10 +19,8 @@ const ProjectCard = ({ title, description, onClick, tags, githubLink }) => {
       </div>
 
       <div>
-        <Separator className="my-4" />
-        <p className='text-gray-600'>
-          {tags}
-        </p>
+        <Separator className='my-4' />
+        <p className='text-gray-600'>{tags}</p>
       </div>
 
       {/* Button handled separately */}
@@ -53,12 +51,8 @@ const ProjectCard = ({ title, description, onClick, tags, githubLink }) => {
 };
 
 const Projects = () => {
-  const handleCineStackClick = () => {
-    window.open('https://cine-track.fly.dev/', '_blank');
-  };
-
-  const handlePortfolioWebsiteClick = () => {
-    window.open('https://couzens.fly.dev/', '_blank');
+  const handleClick = (link) => {
+    window.open(link, '_blank');
   };
 
   return (
@@ -66,17 +60,29 @@ const Projects = () => {
       <ProjectCard
         title='CineStack'
         description='Search, rate, and track your movies!'
-        onClick={handleCineStackClick}
+        onClick={() => handleClick('https://cine-track.fly.dev/')}
         tags={"#react #vite #express #mongoDB #API's #user-authentication"}
         githubLink={'https://github.com/arecouz/cinetrack'}
       />
 
       <ProjectCard
-        title='Portfolio Website'
-        description='A first attempt version of this website'
-        onClick={handlePortfolioWebsiteClick}
-        tags={"#react #vite #styling"}
-        githubLink={'https://github.com/arecouz/portfolio/'}
+        title='Civ Builder Game'
+        description='A web game built using just html/css and vanilla js. You buy resources to grow your civ, and travel to other planets.'
+        onClick={() => handleClick('https://civ-builder.netlify.app/')}
+        tags={'#html #css #javaScript'}
+        githubLink={'https://github.com/arecouz/Civilization-Builder-Game'}
+      />
+
+      <ProjectCard
+        title='An AI model that can predict handwritten characters.'
+        description='Trained on the MNIST data set using Brain.js.'
+        onClick={() => {
+          handleClick('https://mnist-digit-guesser.fly.dev/');
+        }}
+        tags={'#react #vite #neuralNetworsk'}
+        githubLink={
+          'https://github.com/arecouz/mnist-ai-data-recognizer-reduced'
+        }
       />
     </div>
   );
