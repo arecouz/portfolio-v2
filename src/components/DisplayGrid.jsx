@@ -24,7 +24,7 @@ const DisplayGrid = ({ title, description, list }) => {
       </div>
 
       {/* Course Categories Grid */}
-      <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-0 justify-center'>
+      <div className='p-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-0 justify-center'>
         {list.map((item) => (
           <div key={item.title} className='p-3 border'>
             <h1 className='font-semibold'>{item.title}</h1>
